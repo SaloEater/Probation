@@ -9,9 +9,10 @@
 class Human
 {
     protected $surname,
-            $name,
-            $patronymic,
-            $age;
+        $name,
+        $patronymic,
+        $age;
+    public static $counter = [];
 
     public function constructor()
     {
@@ -19,11 +20,19 @@ class Human
         $this->name = '';
         $this->patronymic = '';
         $this->age = -1;
+        if(!isset(self::$counter['Human']))self::$counter['Human'] = 0;
+        self::$counter['Human']++;
+    }
+
+    public function __destruct()
+    {
+        self::$counter['Human']++;
     }
 
     public static function create()
     {
         $instance = new self();
+        $instance->constructor();
         return $instance;
     }
 
@@ -69,6 +78,31 @@ class Human
     {
         $this->surname = $surname;
         return $this;
+    }
+
+    public static function GetAmount()
+    {
+        $output = '';
+
+        foreach(self::$counter as $key=>$value)
+        {
+            $output .= $key . ': ' . $value . PHP_EOL;
+        }
+        return $output;
+    }
+
+    public  function Register($className)
+    {
+        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
+        self::$counter[$className]++;
+    }
+
+    public function Apply(Human $human)
+    {
+        $this->name = $human->getName();
+        $this->surname = $human->getSurname();
+        $this->patronymic = $human->getPatronymic();
+        $this->age = $human->getAge();
     }
 
 }
@@ -135,6 +169,14 @@ class Marks
         return $this;
     }
 
+    public function __toString()
+    {
+        $str = '';
+        foreach($this->marksList as $key=>$value)
+            $str .= $key.' - '.$value . PHP_EOL;
+        return $str;
+    }
+
 }
 
 class Student extends Human
@@ -142,11 +184,21 @@ class Student extends Human
     private $course,
         $marks;
 
+    public static $counter = [];
+
     public function constructor()
     {
         parent::constructor();
         $this->marks = new Marks();
         $this->course = Course::create();
+        if(!isset(self::$counter['Student']))self::$counter['Student'] = 0;
+        self::$counter['Student']++;
+        parent::Register('Student');
+    }
+
+    public function __destruct()
+    {
+        self::$counter['Student']++;
     }
 
     public static function create()
@@ -159,6 +211,12 @@ class Student extends Human
     public function SetCourseNum($num)
     {
         $this->course->SetNum($num);
+        return $this;
+    }
+
+    public function Apply(Human $human)
+    {
+        parent::Apply($human);
         return $this;
     }
 
@@ -178,18 +236,46 @@ class Student extends Human
         $this->marks->AddMark($item, $value);
         return $this;
     }
+
+    public static function GetAmount()
+    {
+        $output = '';
+
+        foreach(self::$counter as $key=>$value)
+        {
+            $output .= $key . ': ' . $value . PHP_EOL;
+        }
+        return $output;
+    }
+
+    public  function Register($className)
+    {
+        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
+        self::$counter[$className]++;
+        parent::Register($className);
+    }
 }
 
 class Worrker extends Human
 {
     private $salary,
-            $payedSalary;
+        $payedSalary;
+
+    public static $counter = [];
 
     public function constructor()
     {
         parent::constructor();
         $this->salary = 0;
         $this->payedSalary = [];
+        if(!isset(self::$counter['Worrker']))self::$counter['Worrker'] = 0;
+        self::$counter['Worrker']++;
+        parent::Register('Worrker');
+    }
+
+    public function __destruct()
+    {
+        self::$counter['Worrker']--;
     }
 
     public static function create()
@@ -197,6 +283,12 @@ class Worrker extends Human
         $instance = new self();
         $instance->constructor();
         return $instance;
+    }
+
+    public function Apply(Human $human)
+    {
+        parent::Apply($human);
+        return $this;
     }
 
     public function SetSalary($salary)
@@ -221,11 +313,30 @@ class Worrker extends Human
     {
         if ($this->payedSalary == []) return 'Hadn\'t receive salary yet';
         $output = '';
-        foreach ($this->payedSalary as $key => $value)
+        foreach ($this->payedSalary as $salaryInfo)
         {
-            $output .= $key . ':' . $this->payedSalary[$key] . PHP_EOL;
+            foreach ($salaryInfo as $key=>$value)
+                $output .= $key . ': ' . $value. PHP_EOL;
         }
         return $output;
+    }
+
+    public static function GetAmount()
+    {
+        $output = '';
+
+        foreach(self::$counter as $key=>$value)
+        {
+            $output .= $key . ': ' . $value . PHP_EOL;
+        }
+        return $output;
+    }
+
+    public  function Register($className)
+    {
+        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
+        self::$counter[$className]++;
+        parent::Register($className);
     }
 }
 
@@ -233,10 +344,20 @@ class Manager extends Worrker
 {
     private $employees;
 
+    public static $counter = [];
+
     public function constructor()
     {
         parent::constructor();
         $this->employees = [];
+        if(!isset(self::$counter['Manager']))self::$counter['Manager'] = 0;
+        self::$counter['Manager']++;
+        parent::Register('Manager');
+    }
+
+    public function __destruct()
+    {
+        self::$counter['Manager']--;
     }
 
     public static function create()
@@ -244,6 +365,12 @@ class Manager extends Worrker
         $instance = new self();
         $instance->constructor();
         return $instance;
+    }
+
+    public function Apply(Human $human)
+    {
+        parent::Apply($human);
+        return $this;
     }
 
     public function AddEmployer($employer)
@@ -275,7 +402,7 @@ class Manager extends Worrker
 
         foreach($this->employees as $employee)
         {
-            $output .= $employee . PHP_EOL;
+            $output .= $employee->surname . PHP_EOL;
         }
 
         return $output;
@@ -285,9 +412,41 @@ class Manager extends Worrker
     {
         return $this->employees;
     }
+
+    public static function GetAmount()
+    {
+        $output = '';
+
+        foreach(self::$counter as $key=>$value)
+        {
+            $output .= $key . ': ' . $value . PHP_EOL;
+        }
+        return $output;
+    }
+
+    public  function Register($className)
+    {
+        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
+        self::$counter[$className]++;
+        parent::Register('Manager');
+    }
 }
 
-// TODO Наполнение
-// TODO Подсчет всех объектов (через стат. переменные? Оо)
+//TODO Understand parent to child assigning
+
+$simpleHuman = Human::create()->setAge(15)->setName('Igor')->setSurname('Ogurec');
+
+$simpleStudent = Student::create()->Apply($simpleHuman)->AddMark(MarksTypes::math, 5)->SetCourseNum(2);
+echo 'Student received this mark today: ' . PHP_EOL . $simpleStudent->GetMarks() . PHP_EOL;
+$simpleWorker = Worrker::create()->Apply($simpleHuman)->SetSalary(5000)->Pay('30.09.2018')->PaySalary('29.09.2018', 5500);
+echo 'Worker ' . $simpleWorker->getSurname() . ' asked for salary list: ' . PHP_EOL. $simpleWorker->GetSalaryList() . PHP_EOL;
+$anotherSimpleWorker = Worrker::create()->Apply($simpleHuman)->setName('Nikita')->SetSalary(5000)->Pay('30.09.2018');
+
+$simpleManager = Manager::create()->setAge(32)->setName('Vasya')->setSurname('Omega')->SetSalary(25000);
+$simpleManager->AddEmployer($simpleWorker)->AddEmployer($anotherSimpleWorker);
+echo 'Manager ' . $simpleManager->getSurname() . ' has these workers: ' . PHP_EOL.$simpleManager->GetEmployerSurnames() . PHP_EOL;
+
+echo 'Already had beed created next classes: ' .PHP_EOL. Worrker::GetAmount() . PHP_EOL;
+
 
 ?>
