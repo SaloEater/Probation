@@ -181,7 +181,7 @@ class Marks
 
 class Student extends Human
 {
-    private $course,
+    protected $course,
         $marks;
 
     public static $counter = [];
@@ -258,7 +258,7 @@ class Student extends Human
 
 class Worrker extends Human
 {
-    private $salary,
+    protected $salary,
         $payedSalary;
 
     public static $counter = [];
@@ -342,7 +342,7 @@ class Worrker extends Human
 
 class Manager extends Worrker
 {
-    private $employees;
+    protected $employees;
 
     public static $counter = [];
 
