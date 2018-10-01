@@ -1,0 +1,36 @@
+SELECT title FROM `publish-year` WHERE year > 2015
+
+SELECT name FROM `_titles_` WHERE name Like '%а%'
+
+SELECT name FROM `_titles_` WHERE name Like 'а_%'
+
+SELECT name FROM `_titles_` WHERE name Like '%а%' AND year > 2015
+
+SELECT name FROM `_titles_` WHERE name Like '%а%' OR year <= 2015
+
+SELECT _titles_.name,
+    producers.surname,
+    producers.name
+FROM
+    _titles_
+JOIN filmsnprods ON filmsnprods.title=_titles_.id
+JOIN producers ON producers.id=filmsnprods.producer
+
+SELECT
+    _titles_.name,
+    producers.surname,
+    producers.name
+FROM
+    _titles_
+JOIN filmsnprods ON filmsnprods.title = _titles_.id
+JOIN producers ON producers.id = filmsnprods.producer
+WHERE
+    producers.surname LIKE '%а%'
+	
+SELECT
+    _titles_.name,
+    _genres_.name
+FROM
+    _titles_
+JOIN `films-genres` ON `films-genres`.`title` = _titles_.id
+JOIN _genres_ ON _genres_.id = `films-genres`.`genre`
