@@ -39,19 +39,20 @@ class Manager extends Worrker
         return $instance;
     }
 
+    //TODO Overrided return type?
     public function Apply(Human $human)
     {
         parent::Apply($human);
         return $this;
     }
 
-    public function AddEmployer(Worrker $employer)
+    public function AddEmployer(Worrker $employer) : Manager
     {
         $this->employees[] = $employer;
         return $this;
     }
 
-    public function RemoveEmployer($surname)
+    public function RemoveEmployer($surname) : Manager
     {
         $removed = false;
         foreach($this->employees as $employee)
@@ -66,7 +67,7 @@ class Manager extends Worrker
         return $removed;
     }
 
-    public function GetEmployerSurnames()
+    public function GetEmployerSurnames() : string
     {
         if($this->employees == [])return [];
 
@@ -80,12 +81,12 @@ class Manager extends Worrker
         return $output;
     }
 
-    public function GetEmployers()
+    public function GetEmployers() : array
     {
         return $this->employees;
     }
 
-    public static function GetAmount()
+    public static function GetAmount() : string
     {
         $output = '';
 

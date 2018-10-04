@@ -36,7 +36,7 @@ trait payable
         return $this->_parent;
     }
 
-    public function GetSalaryList()
+    public function GetSalaryList() : string
     {
         if ($this->payedSalary == []) return 'Hadn\'t receive salary yet';
         $output = '';

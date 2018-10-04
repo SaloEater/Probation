@@ -39,30 +39,20 @@ class Student extends Human
         return $instance;
     }
 
-    public function SetCourseNum($num)
-    {
-        $this->SetNum($num);
-        return $this;
-    }
 
+    //TODO Overrided return type?
     public function Apply(Human $human)
     {
         parent::Apply($human);
         return $this;
     }
 
-    public function SetCourseType(string $type)
-    {
-        $this->SetType($type);
-        return $this;
-    }
-
-    public function GetMarks()
+    public function GetMarks() : array
     {
         return $this->getMarksList();
     }
 
-    public static function GetAmount()
+    public static function GetAmount() : string
     {
         $output = '';
 
@@ -80,7 +70,7 @@ class Student extends Human
         parent::Register($className);
     }
 
-    public function GetMarksString()
+    public function GetMarksString() : string
     {
         $output = '';
         foreach ($this->GetMarks() as $innerArray)

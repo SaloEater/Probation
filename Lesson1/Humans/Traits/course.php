@@ -33,13 +33,13 @@ trait Course
         return $this->_parent;
     }
 
-    public function _setFulltimeType()
+    public function setFulltimeType()
     {
         $this->type = $this->fulltime;
         return $this->_parent;
     }
 
-    public function _setExtramuralType()
+    public function setExtramuralType()
     {
         $this->type = $this->extramural;
         return $this->_parent;

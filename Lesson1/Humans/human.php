@@ -40,22 +40,22 @@ class Human
         return $instance;
     }
 
-    public function getAge()
+    public function getAge() : int
     {
         return $this->age;
     }
 
-    public function getPatronymic()
+    public function getPatronymic() : string
     {
         return $this->patronymic;
     }
 
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getSurname()
+    public function getSurname() : string
     {
         return $this->surname;
     }
@@ -83,7 +83,8 @@ class Human
         $this->surname = $surname;
         return $this;
     }
-    public static function GetAmount()
+
+    public static function GetAmount() : string
     {
 
         $output = '';

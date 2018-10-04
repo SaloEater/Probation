@@ -44,7 +44,7 @@ class Worrker extends Human
         return $this;
     }
 
-    public static function GetAmount()
+    public static function GetAmount() : string
     {
         $output = '';
 

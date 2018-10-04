@@ -25,7 +25,7 @@ trait Marks
         $this->marksList = [];
     }
 
-    public function getMarksList()
+    public function getMarksList() : array
     {
         return $this->marksList;
     }
