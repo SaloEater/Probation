@@ -27,7 +27,7 @@ trait Course
         $this->type = self::fulltime;
     }
 
-    public function setNum($num)
+    public function setCourseNum($num)
     {
         $this->num = $num;
         return $this->_parent;
