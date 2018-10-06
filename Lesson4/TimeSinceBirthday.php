@@ -20,8 +20,8 @@ $date = DateTime::createFromFormat('d.m.Y H:i:s', $dateStr);
 /*
  * @var $now DateTime
  */
-$now = new DateTime('NOW');
-$now->add(new DateInterval('PT3H'));
+$now = new DateTime('NOW', new DateTimeZone('Europe/London'));
+//$now->add(new DateInterval('PT3H'));
 
 /*
  * @var $interval DateInterval
@@ -33,7 +33,7 @@ echo 'Years: ' . $years . PHP_EOL;
 $months = $years*12 + $interval->m;
 echo 'Months: ' . $months . PHP_EOL;
 $days = $interval->days;
-echo 'Dayss: ' . $days . PHP_EOL;
+echo 'Days: ' . $days . PHP_EOL;
 $hours = $days*24 + $interval->h;
 echo 'Hours: ' . $hours . PHP_EOL;
 $minutes = $hours * 60 + $interval->i;

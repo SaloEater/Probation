@@ -12,13 +12,10 @@
  */
 function CountInterval($date)
 {
-    $passed = '';
-
     /*
      * @var $interval DateInterval
      */
-    $now = new DateTime('NOW');
-    $now->add(new DateInterval('PT3H'));
+    $now = new DateTime('NOW', new DateTimeZone('Europe/London'));
 
     $interval = $date->diff($now);
 
@@ -42,5 +39,5 @@ function CountInterval($date)
     return $passed;
 }
 
-$passed = CountInterval(new DateTime('22.03.1998 00:00:00'));
+$passed = CountInterval(new DateTime('22.03.1998T00:00:00'));
 echo $passed . PHP_EOL;
