@@ -15,72 +15,86 @@ class Student extends Human
     use Marks;
     use Course;
 
-    public static $counter = [];
+    /**
+     * @var array $counter
+     */
+    public static $counter;
 
-    public function constructor()
+    /**
+     * @return string
+     */
+    public static function getAmount()
     {
-        parent::constructor();
-        $this->SetCourseParent($this);
-        $this->SetMarksParent($this);
-        if(!isset(self::$counter['Student']))self::$counter['Student'] = 0;
-        self::$counter['Student']++;
-        parent::Register('Student');
+        $output = '';
+
+        foreach (self::$counter as $key => $value) {
+            $output .= $key.': '.$value.PHP_EOL;
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param string $surname
+     * @param string $name
+     * @param string $partonymic
+     * @param int $age
+     */
+    public function __construct($surname, $name, $partonymic, $age)
+    {
+        parent::__construct($surname, $name, $partonymic, $age);
+        $this->constructAction();
+    }
+
+    private function constructAction()
+    {
+        self::register(self::class);
     }
 
     public function __destruct()
     {
-        self::$counter['Student']++;
+        self::unregister(self::class);
     }
 
-    public static function create()
+    /**
+     * @return string
+     */
+    public function getMarksString()
     {
-        $instance = new self();
-        $instance->constructor();
-        return $instance;
+        $output = '';
+        foreach ($this->getMarks() as $innerArray) {
+            foreach ($innerArray as $key => $value) {
+                $output .= $key.' - '.$value.PHP_EOL;
+            }
+        }
+
+        return $output;
     }
 
-
-    //TODO Overrided return type?
-    public function Apply(Human $human)
-    {
-        parent::Apply($human);
-        return $this;
-    }
-
-    public function GetMarks() : array
+    /**
+     * @return array
+     */
+    public function getMarks(): array
     {
         return $this->getMarksList();
     }
 
-    public static function GetAmount() : string
+    protected function register($className)
     {
-        $output = '';
-
-        foreach(self::$counter as $key=>$value)
-        {
-            $output .= $key . ': ' . $value . PHP_EOL;
+        if (!isset(self::$counter[$className])) {
+            self::$counter[$className] = 0;
         }
-        return $output;
-    }
-
-    public  function Register($className)
-    {
-        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
         self::$counter[$className]++;
-        parent::Register($className);
+        parent::register($className);
     }
 
-    public function GetMarksString() : string
+    protected function unregister($className)
     {
-        $output = '';
-        foreach ($this->GetMarks() as $innerArray)
-        {
-            foreach ($innerArray as $key=>$value)
-                $output .= $key . ' - ' . $value . PHP_EOL;
+        if (isset(self::$counter[$className])) {
+            self::$counter[$className]--;
         }
-        return $output;
+        parent::unregister($className);
     }
-
 }
 
 ?>

@@ -8,42 +8,47 @@
 
 trait payable
 {
-    protected $salary,
-        $payedSalary;
+    protected $salary;
+    protected $payedSalary;
 
-    protected $_parent;
-
-    protected function SetPayableParent($_parent)
-    {
-        $this->_parent = $_parent;
-    }
-
-    public function SetSalary(int $salary)
+    /**
+     * @param int $salary
+     */
+    public function setSalary($salary)
     {
         $this->salary = $salary;
-        return $this->_parent;
     }
 
-    public function PaySalary(string $date, int $salary)
+    /**
+     * @param string $date
+     * @param int $salary
+     */
+    public function paySalary($date, $salary)
     {
         $this->payedSalary[] = [$date=>$salary];
-        return $this->_parent;
     }
 
-    public function Pay(string $date)
+    /**
+     * @param string $date
+     */
+    public function pay($date)
     {
         $this->payedSalary[] = [$date=>$this->salary];
-        return $this->_parent;
     }
 
-    public function GetSalaryList() : string
+    /**
+     * @return string
+     */
+    public function getSalaryList()
     {
-        if ($this->payedSalary == []) return 'Hadn\'t receive salary yet';
+        if ($this->payedSalary == []) {
+            return 'Hadn\'t receive salary yet';
+        }
         $output = '';
-        foreach ($this->payedSalary as $salaryInfo)
-        {
-            foreach ($salaryInfo as $key=>$value)
+        foreach ($this->payedSalary as $salaryInfo) {
+            foreach ($salaryInfo as $key => $value) {
                 $output .= $key . ': ' . $value. PHP_EOL;
+            }
         }
         return $output;
     }

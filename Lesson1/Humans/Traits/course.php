@@ -9,39 +9,41 @@
 trait Course
 {
 
-    private $fulltime = 'fulltime',
-        $extramural='extramural';
+    private $FULLTIME = 'fulltime';
 
-    private $num, $type;
+    private $EXTRAMURAL='extramural';
 
-    protected $_parent;
+    /**
+     * @var int $num
+     */
+    private $num;
 
-    protected function SetCourseParent($_parent)
-    {
-        $this->_parent = $_parent;
-    }
+    /**
+     * @var string $type
+     */
+    private $type;
 
-    public function constructor()
+    public function __construct()
     {
         $this->num = 1;
-        $this->type = self::fulltime;
+        $this->type = $this->FULLTIME;
     }
 
+    /**
+     * @param int $num
+     */
     public function setCourseNum($num)
     {
         $this->num = $num;
-        return $this->_parent;
     }
 
     public function setFulltimeType()
     {
-        $this->type = $this->fulltime;
-        return $this->_parent;
+        $this->type = $this->FULLTIME;
     }
 
     public function setExtramuralType()
     {
-        $this->type = $this->extramural;
-        return $this->_parent;
+        $this->type = $this->EXTRAMURAL;
     }
 }

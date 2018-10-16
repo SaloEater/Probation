@@ -8,44 +8,46 @@
 
 trait Marks
 {
-    private $math = 'mathematica',
-        $phys = 'physical',
-        $econ = 'economy';
+    private $math = 'mathematica';
+    private $phys = 'physical';
+    private $econ = 'economy';
     private $marksList;
 
-    protected $_parent;
-
-    protected function SetMarksParent($_parent)
-    {
-        $this->_parent = $_parent;
-    }
-
-    public function constructor()
+    public function __construct()
     {
         $this->marksList = [];
     }
 
-    public function getMarksList() : array
+    /**
+     * @return array
+     */
+    public function getMarksList()
     {
         return $this->marksList;
     }
 
-    public function AddMathMark($value)
+    /**
+     * @param int $value
+     */
+    public function addMathMark($value)
     {
         $this->marksList[] = [$this->math => $value];
-        return $this->_parent;
     }
 
-    public function AddPhysMark($value)
+    /**
+     * @param int $value
+     */
+    public function addPhysMark($value)
     {
         $this->marksList[] = [$this->phys => $value];
-        return $this->_parent;
     }
 
-    public function AddEconomyMark($value)
+    /**
+     * @param int $value
+     */
+    public function addEconomyMark($value)
     {
         $this->marksList[] = [$this->econ => $value];
-        return $this->_parent;
     }
 
 }

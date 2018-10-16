@@ -8,107 +8,141 @@
 
 class Human
 {
-    protected $surname,
-        $name,
-        $patronymic,
-        $age;
-
     /**
-     * @var array[]
+     * @var array[] $counter
      */
     public static $counter;
 
-    public function constructor()
+    /**
+     * @var string $surname
+     */
+    protected $surname;
+
+    /**
+     * @var string $name
+     */
+    protected $name;
+
+    /**
+     * @var string $patronymic
+     */
+    protected $patronymic;
+
+    /**
+     * @var int $age
+     */
+    protected $age;
+
+    /**
+     * @return string
+     */
+    public static function getAmount()
     {
-        $this->surname = '';
-        $this->name = '';
-        $this->patronymic = '';
-        $this->age = -1;
-        if(!isset(self::$counter['Human']))self::$counter['Human'] = 0;
-        self::$counter['Human']++;
+        $output = '';
+
+        foreach (self::$counter as $key => $value) {
+            $output .= $key.': '.$value.PHP_EOL;
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param string $surname
+     * @param string $name
+     * @param string $partonymic
+     * @param int $age
+     */
+    public function __construct($surname, $name, $partonymic, $age)
+    {
+        $this->surname = $surname;
+        $this->name = $name;
+        $this->patronymic = $partonymic;
+        $this->age = $age;
+        self::register(self::class);
     }
 
     public function __destruct()
     {
-        self::$counter['Human']++;
+        self::unregister(self::class);
     }
 
-    public static function create()
+    protected function register($className)
     {
-        $instance = new self();
-        $instance->constructor();
-        return $instance;
+        if (!isset(self::$counter[$className])) {
+            self::$counter[$className] = 0;
+        }
+        self::$counter[$className]++;
     }
 
-    public function getAge() : int
+    protected function unregister($className)
     {
-        return $this->age;
+        if (isset(self::$counter[$className])) {
+            self::$counter[$className]--;
+        }
     }
 
-    public function getPatronymic() : string
-    {
-        return $this->patronymic;
-    }
-
-    public function getName() : string
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return $this->name;
     }
 
-    public function getSurname() : string
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname()
     {
         return $this->surname;
     }
 
-    function setAge(int $age)
-    {
-        $this->age = $age;
-        return $this;
-    }
-
-    public function setName(string $name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function setPatronymic(string $patronymic)
-    {
-        $this->patronymic = $patronymic;
-        return $this;
-    }
-
-    public function setSurname(string $surname)
+    /**
+     * @param string $surname
+     */
+    public function setSurname($surname)
     {
         $this->surname = $surname;
-        return $this;
     }
 
-    public static function GetAmount() : string
+    /**
+     * @return string
+     */
+    public function getPatronymic()
     {
-
-        $output = '';
-
-        foreach(self::$counter as $key=>$value)
-        {
-            $output .= $key . ': ' . $value . PHP_EOL;
-        }
-        return $output;
+        return $this->patronymic;
     }
 
-    public  function Register($className)
+    /**
+     * @param string $patronymic
+     */
+    public function setPatronymic($patronymic)
     {
-        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
-        self::$counter[$className]++;
+        $this->patronymic = $patronymic;
     }
 
-    public function Apply(Human $human)
+    /**
+     * @return int
+     */
+    public function getAge()
     {
-        $this->name = $human->getName();
-        $this->surname = $human->getSurname();
-        $this->patronymic = $human->getPatronymic();
-        $this->age = $human->getAge();
-        return $this;
+        return $this->age;
     }
 
+    /**
+     * @param int $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+    }
 }

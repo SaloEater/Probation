@@ -13,52 +13,62 @@ class Worrker extends Human
 {
     use payable;
 
-    public static $counter = [];
+    /**
+     * @var array $counter
+     */
+    public static $counter;
 
-    public function constructor()
+    /**
+     * @param string $surname
+     * @param string $name
+     * @param string $partonymic
+     * @param int $age
+     */
+    public function __construct($surname, $name, $partonymic, $age)
     {
-        parent::constructor();
-        $this->SetPayableParent($this);
+        parent::__construct($surname, $name, $partonymic, $age);
+        $this->constructAction();
+    }
+
+    private function constructAction()
+    {
         $this->salary = 0;
         $this->payedSalary = [];
-        if(!isset(self::$counter['Worrker']))self::$counter['Worrker'] = 0;
-        self::$counter['Worrker']++;
-        parent::Register('Worrker');
+        self::register(self::class);
     }
 
     public function __destruct()
     {
-        self::$counter['Worrker']--;
+        self::unregister(self::class);
     }
 
-    public static function create()
-    {
-        $instance = new self();
-        $instance->constructor();
-        return $instance;
-    }
-
-    public function Apply(Human $human)
-    {
-        parent::Apply($human);
-        return $this;
-    }
-
-    public static function GetAmount() : string
+    /**
+     * @return string
+     */
+    public static function getAmount()
     {
         $output = '';
 
-        foreach(self::$counter as $key=>$value)
-        {
+        foreach (self::$counter as $key => $value) {
             $output .= $key . ': ' . $value . PHP_EOL;
         }
         return $output;
     }
 
-    public function Register($className)
+    protected function register($className)
     {
-        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
+        if (!isset(self::$counter[$className])) {
+            self::$counter[$className] = 0;
+        }
         self::$counter[$className]++;
-        parent::Register($className);
+        parent::register($className);
+    }
+
+    protected function unregister($className)
+    {
+        if (isset(self::$counter[$className])) {
+            self::$counter[$className]--;
+        }
+        parent::unregister($className);
     }
 }

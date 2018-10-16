@@ -1,0 +1,15 @@
+Student Petrov received this mark today: 
+mathematica - 5
+
+Worker Korobei asked for salary list: 
+30.09.2018: 5000
+29.09.2018: 5500
+
+Manager Omega has these workers: 
+Korobei
+Vasechkin
+
+Already had beed created next Worrker classes: 
+Worrker: 3
+Manager: 1
+

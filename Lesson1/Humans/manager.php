@@ -10,97 +10,118 @@ require_once 'worrker.php';
 
 class Manager extends Worrker
 {
-    protected $employees;
-
-
     /**
      * @var array[]
      */
     public static $counter = [];
+    /**
+     * @var array $employees
+     */
+    protected $employees;
 
-    public function constructor()
+    /**
+     * @return string
+     */
+    public static function getAmount()
     {
-        parent::constructor();
+        $output = '';
+
+        foreach (self::$counter as $key => $value) {
+            $output .= $key.': '.$value.PHP_EOL;
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param string $surname
+     * @param string $name
+     * @param string $partonymic
+     * @param int $age
+     */
+    public function __construct($surname, $name, $partonymic, $age)
+    {
+        parent::__construct($surname, $name, $partonymic, $age);
+        $this->constructAction();
+    }
+
+    private function constructAction()
+    {
         $this->employees = [];
-        if(!isset(self::$counter['Manager']))self::$counter['Manager'] = 0;
-        self::$counter['Manager']++;
-        parent::Register('Manager');
+        self::register(self::class);
     }
 
     public function __destruct()
     {
-        self::$counter['Manager']--;
+        self::unregister(self::class);
     }
 
-    public static function create()
-    {
-        $instance = new self();
-        $instance->constructor();
-        return $instance;
-    }
-
-    //TODO Overrided return type?
-    public function Apply(Human $human)
-    {
-        parent::Apply($human);
-        return $this;
-    }
-
-    public function AddEmployer(Worrker $employer) : Manager
+    /**
+     * @param Worrker $employer
+     */
+    public function addEmployer($employer)
     {
         $this->employees[] = $employer;
-        return $this;
     }
 
-    public function RemoveEmployer($surname) : Manager
+    /**
+     * @param string $surname
+     * @return bool
+     */
+    public function removeEmployer($surname)
     {
         $removed = false;
-        foreach($this->employees as $employee)
-        {
-            if($employee->surname==$surname)
-            {
+        foreach ($this->employees as $employee) {
+            if ($employee->surname == $surname) {
                 $removed = true;
                 unset($employee);
                 break;
             }
         }
+
         return $removed;
     }
 
-    public function GetEmployerSurnames() : string
+    /**
+     * @return string
+     */
+    public function getEmployerSurnames()
     {
-        if($this->employees == [])return [];
+        if ($this->employees == []) {
+            return '';
+        }
 
         $output = '';
 
-        foreach($this->employees as $employee)
-        {
-            $output .= $employee->surname . PHP_EOL;
+        foreach ($this->employees as $employee) {
+            $output .= $employee->surname.PHP_EOL;
         }
 
         return $output;
     }
 
-    public function GetEmployers() : array
+    /**
+     * @return array
+     */
+    public function getEmployers()
     {
         return $this->employees;
     }
 
-    public static function GetAmount() : string
+    protected function register($className)
     {
-        $output = '';
-
-        foreach(self::$counter as $key=>$value)
-        {
-            $output .= $key . ': ' . $value . PHP_EOL;
+        if (!isset(self::$counter[$className])) {
+            self::$counter[$className] = 0;
         }
-        return $output;
+        self::$counter[$className]++;
+        parent::register($className);
     }
 
-    public  function Register($className)
+    protected function unregister($className)
     {
-        if(!isset(self::$counter[$className]))self::$counter[$className] = 0;
-        self::$counter[$className]++;
-        parent::Register('Manager');
+        if (isset(self::$counter[$className])) {
+            self::$counter[$className]--;
+        }
+        parent::unregister($className);
     }
 }
