@@ -65,6 +65,11 @@ class Shop
         $this->changeDiscount('shop', $discount);
     }
 
+    public function resetDiscount()
+    {
+        $this->changeDiscount('shop', 0);
+    }
+
     /**
      * @param string $name
      * @param float $value
@@ -202,6 +207,8 @@ class ShopOutput
     {
         echo $cart->toString($fullprice).PHP_EOL;
     }
+
+
 }
 
 /*

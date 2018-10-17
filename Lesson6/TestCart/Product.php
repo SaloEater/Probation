@@ -89,6 +89,11 @@ class Product
         $this->applyOwnDiscount($discount);
     }
 
+    public function resetDiscount()
+    {
+        $this->applyOwnDiscount(0);
+    }
+
     /**
      * @param bool $fullprice
      * @return string

@@ -42,6 +42,11 @@ trait Discountable
         return $this->discounts;
     }
 
+    public function resetOwnDiscount()
+    {
+        $this->applyOwnDiscount(0);
+    }
+
     /**
      * @return string
      */

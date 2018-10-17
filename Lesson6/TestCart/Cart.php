@@ -141,6 +141,11 @@ class Cart
             $product->applyDiscount($name, $value);
         }
     }
+
+    public function resetDiscount()
+    {
+        $this->changeDiscount('cart', 0);
+    }
 }
 
 class CartValue
