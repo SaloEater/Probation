@@ -236,7 +236,7 @@ class IMenu
      * @param string[1] $symbol
      * @param IMenu $menu
      */
-    public function registerMenu($symbol, $menu)
+    public function RegisterMenu($symbol, $menu)
     {
         $this->registeredMenus[$symbol] = $menu;
     }
