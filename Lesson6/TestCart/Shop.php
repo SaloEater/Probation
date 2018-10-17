@@ -111,6 +111,14 @@ class Shop
     }
 
     /**
+     * @param Cart $cart
+     */
+    public function setCart(Cart $cart): void
+    {
+        $this->cart = $cart;
+    }
+
+    /**
      * @param int $index
      * @return Product
      */
@@ -127,14 +135,6 @@ class Shop
     public function loadCart()
     {
         (new ShopCartOperator())->loadCart($this, $this->cart);
-    }
-
-    /**
-     * @param Cart $cart
-     */
-    public function setCart(Cart $cart): void
-    {
-        $this->cart = $cart;
     }
 }
 
@@ -187,11 +187,11 @@ class ShopOutput
          * @var Product $product
          */
         foreach ($products as $product) {
-            $output .= $product->toString($fullprice) . PHP_EOL;
+            $output .= $product->toString($fullprice).PHP_EOL;
         }
 
-        echo 'Shop sells these items: ' . PHP_EOL .
-            $output. PHP_EOL;
+        echo 'Shop sells these items: '.PHP_EOL.
+            $output.PHP_EOL;
     }
 
     /**
@@ -200,7 +200,7 @@ class ShopOutput
      */
     public function printCart($cart, $fullprice)
     {
-        echo $cart->toString($fullprice) . PHP_EOL;
+        echo $cart->toString($fullprice).PHP_EOL;
     }
 }
 
@@ -236,7 +236,7 @@ class IMenu
      * @param string[1] $symbol
      * @param IMenu $menu
      */
-    public function RegisterMenu($symbol, $menu)
+    public function registerMenu($symbol, $menu)
     {
         $this->registeredMenus[$symbol] = $menu;
     }

@@ -118,8 +118,8 @@ class ProductToString
         if ($fullprice) {
             $output .= 'Price: '.$product->getPrice($fullprice);
         } else {
-            $output .= 'It\'s under ' . $product->getDiscountValue() . ' discount' . PHP_EOL .
-                        'with new price ' . $product->getPrice($fullprice);
+            $output .= 'It\'s under '.$product->getDiscountValue().' discount'.PHP_EOL.
+                'with new price '.$product->getPrice($fullprice);
         }
 
         return $output;

@@ -43,7 +43,7 @@ class Cart
      */
     public function addWithID($productID)
     {
-        $this->products =  $this->editor->addWithID($this->products, $productID);
+        $this->products = $this->editor->addWithID($this->products, $productID);
     }
 
     /**
@@ -123,6 +123,14 @@ class Cart
     }
 
     /**
+     * @param float $discount
+     */
+    public function setDiscount($discount)
+    {
+        $this->changeDiscount('cart', $discount);
+    }
+
+    /**
      * @param string $name
      * @param float $value
      */
@@ -132,14 +140,6 @@ class Cart
         foreach ($this->products as $product) {
             $product->applyDiscount($name, $value);
         }
-    }
-
-    /**
-     * @param float $discount
-     */
-    public function setDiscount($discount)
-    {
-        $this->changeDiscount('cart', $discount);
     }
 }
 
@@ -182,15 +182,16 @@ class CartToString
          */
         $output = '';
 
-        $output .= 'Cart contains ' .$cart->getProductsAmount() .  ' products:' . PHP_EOL;
+        $output .= 'Cart contains '.$cart->getProductsAmount().' products:'.PHP_EOL;
         /**
          * @var Product $product
          */
         foreach ($cart->getProducts() as $product) {
-            $output .= $product->toString($fullprice) . PHP_EOL;
+            $output .= $product->toString($fullprice).PHP_EOL;
         }
 
-        $output .= 'and it\'s total cost: ' . $cart->getCartValue($fullprice). PHP_EOL;
+        $output .= 'and it\'s total cost: '.$cart->getCartValue($fullprice).PHP_EOL;
+
         return $output;
     }
 }
@@ -209,6 +210,7 @@ class CartEditor
     public function add($products, $product)
     {
         $products[] = $product;
+
         return $products;
     }
 
@@ -220,6 +222,7 @@ class CartEditor
     public function addWithID($products, $productID)
     {
         $products[] = (new ProductDB())->getByID($productID);
+
         return $products;
     }
 
@@ -239,6 +242,7 @@ class CartEditor
                 break;
             }
         }
+
         return $products;
     }
 
@@ -258,6 +262,7 @@ class CartEditor
                 break;
             }
         }
+
         return $products;
     }
 
@@ -274,6 +279,7 @@ class CartEditor
                 break;
             }
         }
+
         return $products;
     }
 }

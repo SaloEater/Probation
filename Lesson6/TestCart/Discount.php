@@ -15,12 +15,14 @@ trait Discountable
      */
     private $discounts;
 
-    /**
-     * @return array
-     */
-    public function getDiscounts()
+    public function __construct()
     {
-        return $this->discounts;
+        $this->applyOwnDiscount(0);
+    }
+
+    public function applyOwnDiscount($value)
+    {
+        $this->applyDiscount('self', $value);
     }
 
     /**
@@ -32,14 +34,12 @@ trait Discountable
         $this->discounts[$name] = $value;
     }
 
-    public function __construct()
+    /**
+     * @return array
+     */
+    public function getDiscounts()
     {
-        $this->applyOwnDiscount(0);
-    }
-
-    public function applyOwnDiscount($value)
-    {
-        $this->applyDiscount('self', $value);
+        return $this->discounts;
     }
 
     /**
@@ -55,12 +55,13 @@ trait Discountable
                 continue;
             }
             if (count($this->discounts) == $i) {
-                $output .= $discount . '%';
+                $output .= $discount.'%';
             } else {
-                $output .= $discount . '% and ';
+                $output .= $discount.'% and ';
             }
             $i++;
         }
+
         return $output;
     }
 
@@ -71,7 +72,7 @@ trait Discountable
     public function getDiscountedPrice($price)
     {
         foreach ($this->discounts as $discount) {
-            $price = $price*(1-$discount/100);
+            $price = $price * (1 - $discount / 100);
         }
 
         return $price;

@@ -8,12 +8,63 @@
 
 namespace TestCart;
 
+trait DBAble
+{
+    /**
+     * @var ITable $db
+     */
+    private $db;
+
+    /**
+     * @param ITable $db
+     */
+    public function setDB($db)
+    {
+        $this->db = $db;
+    }
+
+    /**
+     * @param int $id
+     * @param mixed $content
+     */
+    public function writeWithID($id, $content)
+    {
+        $this->db->writeWithID($id, $content);
+    }
+
+    /**
+     * @param string $table
+     */
+    public function setTable($table)
+    {
+        $this->db->setTable($table);
+    }
+
+    /**
+     * @return array
+     */
+    public function all()
+    {
+        return $this->db->all();
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    protected function getByID($id)
+    {
+        return $this->db->readByID($id);
+    }
+}
+
 class ITable
 {
     protected static $faketable = [
         'products' => [],
-        'cart' => []
+        'cart' => [],
     ];
+    protected $table;
 
     /**
      * @param string $table
@@ -37,15 +88,16 @@ class ITable
      * @param int $id
      * @param mixed $content
      */
-    public function writeWithID($id, $content){}
-
+    public function writeWithID($id, $content)
+    {
+    }
 
     /**
      * @param mixed $content
      */
-    public function write($content){}
-
-    protected $table;
+    public function write($content)
+    {
+    }
 
     /**
      * @param string $table
@@ -103,54 +155,4 @@ class FakeTable extends ITable
         return self::$faketable[$this->table];
     }
 
-}
-
-trait DBAble
-{
-    /**
-     * @var ITable $db
-     */
-    private $db;
-
-    /**
-     * @param ITable $db
-     */
-    public function setDB($db)
-    {
-        $this->db = $db;
-    }
-
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    protected function getByID($id)
-    {
-        return $this->db->readByID($id);
-    }
-
-    /**
-     * @param int $id
-     * @param mixed $content
-     */
-    public function writeWithID($id, $content)
-    {
-        $this->db->writeWithID($id, $content);
-    }
-
-    /**
-     * @param string $table
-     */
-    public function setTable($table)
-    {
-        $this->db->setTable($table);
-    }
-
-    /**
-     * @return array
-     */
-    public function all()
-    {
-        return $this->db->all();
-    }
 }
