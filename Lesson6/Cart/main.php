@@ -14,15 +14,14 @@ require_once 'Product\Helpers\IProductToString\ProductToStringWithDiscountedPric
 require_once 'Product\Helpers\IProductToString\ProductToStringWithFullPrice.php';
 require_once 'Cart\Helpers\ICartToString\CartToStringWithFullPrice.php';
 require_once 'Cart\Helpers\ICartToString\CartToStringWithDiscountedPrice.php';
+require_once 'Cart\Helpers\CartDB.php';
 
 use Cart\Cart;
+use Helpers\Cart\CartDB;
 use Helpers\Cart\CartToStringWithDiscountedPrice;
 use Helpers\Product\ProductDB;
-use Helpers\Product\ProductToStringWithDiscountedPrice;
-use Helpers\Product\ProductToStringWithFullPrice;
 use Helpers\Table\FakeDBFiller;
 use Product\Product;
-
 
 FakeDBFiller::fillDB();
 
@@ -45,15 +44,18 @@ $product1 = $productDB->getByID(1);
  */
 $product2 = $productDB->getByID(2);
 
-echo $product0->toString(new ProductToStringWithFullPrice()).PHP_EOL;
-echo $product2->toString(new ProductToStringWithDiscountedPrice()).PHP_EOL;
+echo 'Cart contains '.$cart->getProductsAmount().' items'.PHP_EOL;
 
-$cart->addSome($product1, 5);
-
-echo $cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
-
-echo 'Cart contains '.$cart->getProductsAmount().' items';
 
 $cart->addOne($product2);
 
-echo $cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
+$cartdb = new CartDB();
+$cartdb->save($cart);
+
+echo 'After save: '.PHP_EOL.$cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
+
+$product2->setPrice(100);
+
+$cart = $cartdb->load();
+
+echo 'After load: '.PHP_EOL.$cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;

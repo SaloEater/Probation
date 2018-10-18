@@ -13,8 +13,8 @@ class ITable
     protected static $fakedb = [
         'products' => [],
         'cart' => [],
-        'sellout' => [],
-        'loyaltycard' => [],
+        'sellout' => [0],
+        'loyaltycard' => [0],
     ];
 
     protected $table;

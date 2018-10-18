@@ -24,9 +24,15 @@ class FakeDBFiller
         $fakeProducts[] = new Product(2, 'Third', 50);
 
         ITable::updateFakebase('products', $fakeProducts);
+    }
 
-        ITable::updateFakebase('sellout', [35]);
+    public static function updateSellout($value)
+    {
+        ITable::updateFakebase('sellout', [$value]);
+    }
 
-        ITable::updateFakebase('loyaltycard', [15]);
+    public static function updateLoyaltyCard($value)
+    {
+        ITable::updateFakebase('loyaltycard', [$value]);
     }
 }
