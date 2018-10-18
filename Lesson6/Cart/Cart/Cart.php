@@ -12,6 +12,7 @@ require_once __DIR__.'\..\Product\IProduct.php';
 require_once __DIR__.'\..\Discount\DiscountTrait.php';
 require_once 'ICart.php';
 require_once 'Helpers\Sellout\Sellout.php';
+require_once 'Helpers\LoyaltyCard\LoyaltyCard.php';
 
 use Discount\DiscountTrait;
 use Helpers\Cart\ICartToString;
@@ -30,6 +31,7 @@ class Cart extends ICart
 
     public function __construct()
     {
+        $this->loyaltyCard = new LoyaltyCard();
         $this->initDiscountTrait();
         $this->setDiscountName('cart');
     }

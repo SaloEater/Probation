@@ -54,10 +54,6 @@ echo $cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
 
 echo 'Cart contains '.$cart->getProductsAmount().' items';
 
-/* Применим распродажу */
-
-$cart->updateAnotherDiscount('shop', 50);
-
 $cart->addOne($product2);
 
 echo $cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
