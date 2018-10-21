@@ -34,14 +34,14 @@ class CartDB
      */
     public function save($cart)
     {
-        $this->writeWithID(0, $cart);
+        $this->writeWithID($cart->getId(), $cart->getProducts());
     }
 
     /**
-     * @return ICart
+     * @param ICart $cart
      */
-    public function load()
+    public function load($cart)
     {
-        return $this->getByID(0);
+        $cart->setProducts($this->getByID($cart->getId()));
     }
 }

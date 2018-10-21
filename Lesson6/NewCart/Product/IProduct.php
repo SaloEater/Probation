@@ -17,20 +17,22 @@ use Helpers\Product\IProductToString;
 class IProduct
 {
     use DiscountTrait;
+
+    protected $amount;
     /**
      * @var int $id
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string $name
      */
-    private $name;
+    protected $name;
 
     /**
      * @var float $price
      */
-    private $price;
+    protected $price;
 
     /**
      * @return int
@@ -87,5 +89,21 @@ class IProduct
     public function toString($method)
     {
         return $method->toString($this);
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param int $amount
+     */
+    public function setAmount(int $amount): void
+    {
+        $this->amount = $amount;
     }
 }

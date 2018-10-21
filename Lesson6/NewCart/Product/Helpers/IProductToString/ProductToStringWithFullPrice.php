@@ -27,7 +27,7 @@ class ProductToStringWithFullPrice extends IProductToString
 
         $output .= '> '.$product->getId().PHP_EOL;
         $output .= 'Name: '.$product->getName().PHP_EOL;
-        $output .= 'Price: '.$product->getPrice().PHP_EOL;
+        $output .= 'Price: '.$product->fullPriceToString();
 
         return $output;
     }

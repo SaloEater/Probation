@@ -17,11 +17,9 @@ require_once 'Cart\Helpers\ICartToString\CartToStringWithDiscountedPrice.php';
 require_once 'Cart\Helpers\CartDB.php';
 
 use Cart\Cart;
-use Helpers\Cart\CartDB;
 use Helpers\Cart\CartToStringWithDiscountedPrice;
-use Helpers\Product\ProductDB;
+use Helpers\Cart\CartToStringWithFullPrice;
 use Helpers\Table\FakeDBFiller;
-use Product\Product;
 
 FakeDBFiller::fillDB();
 
@@ -30,32 +28,21 @@ FakeDBFiller::fillDB();
  */
 $cart = new Cart();
 
-$productDB = new ProductDB();
-/**
- * @var Product $product0
- */
-$product0 = $productDB->getByID(0);
-/**
- * @var Product $product1
- */
-$product1 = $productDB->getByID(1);
-/**
- * @var Product $product2
- */
-$product2 = $productDB->getByID(2);
+$cart->addSome(0, 5);
 
-echo 'Cart contains '.$cart->getProductsAmount().' items'.PHP_EOL;
+echo $cart->print(new CartToStringWithFullPrice());
+
+$cart->save();
+
+$cart->addSome(0, 2);
+
+echo PHP_EOL.$cart->print(new CartToStringWithDiscountedPrice());
+
+FakeDBFiller::updateSellout(10);
+FakeDBFiller::updateLoyaltyCard(10);
+
+$cart->load();
+
+echo PHP_EOL.$cart->print(new CartToStringWithDiscountedPrice());
 
 
-$cart->addOne($product2);
-
-$cartdb = new CartDB();
-$cartdb->save($cart);
-
-echo 'After save: '.PHP_EOL.$cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;
-
-$product2->setPrice(100);
-
-$cart = $cartdb->load();
-
-echo 'After load: '.PHP_EOL.$cart->toString(new CartToStringWithDiscountedPrice()).PHP_EOL;

@@ -29,9 +29,9 @@ class ProductToStringWithDiscountedPrice extends IProductToString
         $output .= 'Name: '.$product->getName().PHP_EOL;
         if ($product->getTotalDiscount() > 0) {
             $output .= 'Is under '.$product->discountToString().' discount'.PHP_EOL.
-                'with new price: '.$product->applyDiscount($product->getPrice());
+                'with new price: '.$product->discountedPriceToString();
         } else {
-            $output .= 'Price: '.$product->getPrice();
+            $output .= 'Price: '.$product->fullPriceToString();
         }
 
         $output .= PHP_EOL;

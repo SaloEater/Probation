@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Tom
  * Date: 17.10.2018
- * Time: 23:06
+ * Time: 23:14
  */
 
 namespace Helpers\Cart;
@@ -15,7 +15,8 @@ require_once 'ICartValue.php';
 use Cart\Cart;
 use Product\Product;
 
-class CartFullValue extends ICartValue
+
+class CartDiscountedValue extends ICartValue
 {
     /**
      * @param Cart $cart
@@ -28,8 +29,8 @@ class CartFullValue extends ICartValue
         /**
          * @var Product $product
          */
-        foreach ($cart->getProducts() as $product) {
-            $value += $product->getPrice();
+        foreach ($cart->getDiscountedPriceProducts() as $product) {
+            $value += $product->discountedPriceAll();
         }
 
         return $value;

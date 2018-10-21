@@ -11,15 +11,13 @@ namespace Helpers\Cart;
 require_once __DIR__.'\..\..\Cart.php';
 require_once 'SelloutDB.php';
 
-use Cart\Cart;
-
 class Sellout
 {
     /**
-     * @param Cart $cart
+     * @return float
      */
-    public function apply($cart)
+    public function get()
     {
-        $cart->updateAnotherDiscount('shop', (new SelloutDB())->get());
+        return (new SelloutDB())->get();
     }
 }

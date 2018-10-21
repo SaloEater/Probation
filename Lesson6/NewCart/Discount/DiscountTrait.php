@@ -8,8 +8,6 @@
 
 namespace Discount;
 
-require_once 'WhoDepends.php';
-
 trait DiscountTrait
 {
 
@@ -18,46 +16,13 @@ trait DiscountTrait
      */
     protected $discount;
     /**
-     * @var string $discountOwnerName
-     */
-    private $discountOwnerName;
-    /**
-     * @var WhoDepends $whoDepends
-     */
-    private $whoDepends;
-    /**
      * @var array $influencedDiscounts
      */
     private $influencedDiscounts;
 
-    /**
-     * @return string
-     */
-    public function getDiscountName(): string
-    {
-        return $this->discountOwnerName;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setDiscountName(string $name): void
-    {
-        $this->discountOwnerName = $name;
-    }
-
     public function initDiscountTrait()
     {
-        $this->whoDepends = new WhoDepends();
         $this->influencedDiscounts = [];
-    }
-
-    /**
-     * @return WhoDepends
-     */
-    public function getWhoDepends(): WhoDepends
-    {
-        return $this->whoDepends;
     }
 
     /**
@@ -67,16 +32,6 @@ trait DiscountTrait
     public function updateAnotherDiscount($name, $discount)
     {
         $this->influencedDiscounts[$name] = $discount;
-        $this->whoDepends->updateDiscount($name, $discount);
-    }
-
-    /**
-     * @param string $name
-     */
-    public function resetAnotherDiscount($name)
-    {
-        $this->influencedDiscounts[$name] = 0;
-        $this->whoDepends->updateDiscount($name, 0);
     }
 
     /**
@@ -146,19 +101,6 @@ trait DiscountTrait
     public function setDiscount(float $discount): void
     {
         $this->discount = $discount;
-        $this->whoDepends->updateDiscount($this->discountOwnerName, $discount);
-    }
-
-    /**
-     * @param object $product
-     */
-    public function initializeDependent($product)
-    {
-        $this->whoDepends->add($product);
-        $product->updateAnotherDiscount($this->discountOwnerName, $this->discount);
-        foreach ($this->influencedDiscounts as $index => $discount) {
-            $product->updateAnotherDiscount($index, $discount);
-        }
     }
 
 }

@@ -12,6 +12,11 @@ require_once 'ITable.php';
 
 class FakeTable extends ITable
 {
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function readByID($id)
     {
         /**
@@ -31,12 +36,12 @@ class FakeTable extends ITable
 
     public function writeWithID($id, $content)
     {
-        self::$fakedb[$this->table][$id] = clone $content;
+        self::$fakedb[$this->table][$id] = $content;
     }
 
     public function write($content)
     {
-        self::$fakedb[$this->table][] = clone $content;
+        self::$fakedb[$this->table][] = $content;
     }
 
     public function all()
